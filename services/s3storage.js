@@ -3,11 +3,11 @@ import crypto from "crypto"
 
 import * as clientS3 from "@aws-sdk/client-s3" 
 import * as presigner from "@aws-sdk/s3-request-presigner" 
+import { fromInstanceMetadata } from "@aws-sdk/credential-providers";
 
 const s3c = new clientS3.S3Client({
     region: process.env.AWS_REGION,
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    credential: fromInstanceMetadata(),
 })
 
 export const makePresignedURL = async (s3key, fileName) => {
